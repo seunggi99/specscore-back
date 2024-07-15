@@ -18,12 +18,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
-    @org.springframework.transaction.annotation.Transactional
-    public Long join(User user) {
-        validateDuplicateMember(user); //중복 회원 검증
-        userRepository.save(user);
-        return user.getId();
-    }
 
     private void validateDuplicateMember(User user) {
         userRepository.findByUsername(user.getUsername())
