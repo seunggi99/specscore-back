@@ -54,7 +54,7 @@ public class AuthService {
             if (ourUserResult != null && ourUserResult.getId()>0) {
 
                 resp.setOurUsers(ourUserResult);
-                resp.setMessage("User Saved Successfully");
+                resp.setMessage("회원 저장 성공");
                 resp.setStatusCode(200);
             }
         }catch (Exception e){
@@ -79,7 +79,7 @@ public class AuthService {
             response.setNickname(user.getNickname());
             response.setRefreshToken(refreshToken);
             response.setExpirationTime("24Hr");
-            response.setMessage("Successfully Signed In");
+            response.setMessage("로그인 성공");
         }catch (Exception e){
             response.setStatusCode(500);
             response.setError(e.getMessage());
@@ -98,10 +98,10 @@ public class AuthService {
                 response.setToken(jwt);
                 response.setRefreshToken(refreshTokenRequest.getToken());
                 response.setExpirationTime("24Hr");
-                response.setMessage("Successfully Refreshed Token");
+                response.setMessage("재발급 성공");
             } else {
                 response.setStatusCode(401);
-                response.setError("Invalid refresh token");
+                response.setError("유효하지 않은 토큰");
             }
         } catch (Exception e) {
             response.setStatusCode(500);
