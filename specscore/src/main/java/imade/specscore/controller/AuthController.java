@@ -1,17 +1,13 @@
 package imade.specscore.controller;
 
-import imade.specscore.domain.Role;
 import imade.specscore.dto.JwtRequest;
 import imade.specscore.dto.JwtResponse;
 import imade.specscore.dto.SigninRequest;
 import imade.specscore.dto.SignupRequest;
 import imade.specscore.service.AuthService;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/auth")

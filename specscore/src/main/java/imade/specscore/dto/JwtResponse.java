@@ -6,9 +6,6 @@ import imade.specscore.domain.Role;
 import imade.specscore.domain.User;
 import lombok.Data;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
