@@ -1,2 +1,7 @@
-package imade.specscore.domain;public class Role {
-}
+    package imade.specscore.domain;
+
+    public enum Role {
+        ROLE_USER,
+        ROLE_ADMIN,
+        ROLE_INSTRUCTOR
+    }
