@@ -19,11 +19,11 @@ public class Approval {
     private Long Id;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "approval")
+    @OneToMany(mappedBy = "approval", cascade = CascadeType.ALL)
     private List<Course> courses = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "approval")
+    @OneToMany(mappedBy = "approval", cascade = CascadeType.ALL)
     private List<EmploymentNotice> employmentNotices = new ArrayList<>();
 
     @ManyToOne(fetch = LAZY)

@@ -18,6 +18,6 @@ public class CourseCategory {
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "courseCategory")
+    @OneToMany(mappedBy = "courseCategory", cascade = CascadeType.ALL)
     private List<Course> courses = new ArrayList<>();
 }

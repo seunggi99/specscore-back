@@ -28,7 +28,7 @@ public class CourseQuestion {
     private Enrollment enrollment;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "courseQuestion")
+    @OneToMany(mappedBy = "courseQuestion", cascade = CascadeType.ALL)
     private List<CourseAnswer> courseAnswers = new ArrayList<>();
 
     private String title;

@@ -22,11 +22,11 @@ public class Lecture {
     private Course course;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "lecture")
+    @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL)
     private List<LectureProgress> lectureProgresses = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "lecture")
+    @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL)
     private List<CourseQuestion> courseQuestions = new ArrayList<>();
 
     private String title;

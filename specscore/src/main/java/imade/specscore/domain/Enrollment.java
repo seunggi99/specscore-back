@@ -27,15 +27,15 @@ public class Enrollment {
     private User user;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "enrollment")
+    @OneToMany(mappedBy = "enrollment", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "enrollment")
+    @OneToMany(mappedBy = "enrollment", cascade = CascadeType.ALL)
     private List<LectureProgress> lectureProgresses = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "enrollment")
+    @OneToMany(mappedBy = "enrollment", cascade = CascadeType.ALL)
     private List<CourseQuestion> courseQuestions = new ArrayList<>();
 
     private LocalDate enrollmentDate;
