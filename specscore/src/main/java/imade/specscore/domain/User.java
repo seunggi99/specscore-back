@@ -1,5 +1,6 @@
 package imade.specscore.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,8 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -36,7 +39,7 @@ public class User implements UserDetails {
 
     private LocalDateTime lastLoginDate;
 
-    private boolean is_active;
+    private boolean isActive;
 
     // 학생 입력 내용
 
@@ -45,7 +48,7 @@ public class User implements UserDetails {
     private String reason; // 가입 이유
 
     // 강사 입력 내용
-    private String profile_img;
+    private String profileImg;
 
     private String certificate; // 자격증
 
@@ -58,6 +61,26 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Course> courses = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Approval> approvals = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<EmploymentNotice> employmentNotices = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Enrollment> enrollments = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<CourseAnswer> courseAnswers = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -81,7 +104,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return is_active;
+        return isActive;
     }
 
 }

@@ -44,10 +44,10 @@ public class AuthService {
             users.setPhone(registrationRequest.getPhone());
             users.setBirthDate(registrationRequest.getBirthDate());
             users.setRegistrationDate(LocalDateTime.now());
-            users.set_active(true);
+            users.setActive(true);
             users.setInterestedJob(registrationRequest.getInterestedJob());
             users.setReason(registrationRequest.getReason());
-            users.setProfile_img(registrationRequest.getProfile_img());
+            users.setProfileImg(registrationRequest.getProfile_img());
             users.setCertificate(registrationRequest.getCertificate());
             users.setEducation(registrationRequest.getEducation());
             users.setExperience(registrationRequest.getExperience());
