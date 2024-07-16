@@ -16,10 +16,10 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("Your API Title")
-                        .version("1.0.0")
-                        .description("Your API Description")
-                        .contact(new Contact().name("Your Name").email("your-email@example.com").url("http://www.example.com")))
+                .info(new Info().title("SPECSCORE API")
+                        .version("1.0.0"))
+                       // .description("Your API Description")
+                     //   .contact(new Contact().name("Your Name").email("your-email@example.com").url("http://www.example.com")))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components().addSecuritySchemes("bearerAuth",
                         new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
