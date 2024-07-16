@@ -47,6 +47,11 @@ public class AuthService {
             users.set_active(true);
             users.setInterestedJob(registrationRequest.getInterestedJob());
             users.setReason(registrationRequest.getReason());
+            users.setProfile_img(registrationRequest.getProfile_img());
+            users.setCertificate(registrationRequest.getCertificate());
+            users.setEducation(registrationRequest.getEducation());
+            users.setExperience(registrationRequest.getExperience());
+            users.setContent(registrationRequest.getContent());
             users.setRole(registrationRequest.getRole());
 
 

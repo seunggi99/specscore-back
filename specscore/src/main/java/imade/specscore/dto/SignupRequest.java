@@ -19,5 +19,12 @@ public class SignupRequest {
     private LocalDate birthDate;
     private String interestedJob;
     private String reason;
+
+    // 강사 입력 내용
+    private String profile_img;
+    private String certificate; // 자격증
+    private String education; // 학력
+    private String experience; // 경력
+    private String content; // 자기 소개 내용
     private Role role;
 }

@@ -38,9 +38,23 @@ public class User implements UserDetails {
 
     private boolean is_active;
 
-    private String interestedJob;
+    // 학생 입력 내용
 
-    private String reason;
+    private String interestedJob; // 관심 직무
+
+    private String reason; // 가입 이유
+
+    // 강사 입력 내용
+    private String profile_img;
+
+    private String certificate; // 자격증
+
+    private String education; // 학력
+
+    private String experience; // 경력
+
+    private String content; // 자기 소개 내용
+
 
     @Enumerated(EnumType.STRING)
     private Role role;
