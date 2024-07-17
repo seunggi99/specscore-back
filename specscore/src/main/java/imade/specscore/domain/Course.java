@@ -66,14 +66,20 @@ public class Course {
         lectures.add(lecture);
         lecture.setCourse(this);
     }
+    public void setUser(User user) {
+        this.user = user;
+        user.getCourses().add(this);
+    }
 
     /* 강의 생성 메서드 */
-    public static Course createCourse(User instructor, Lecture... lectures) {
+    /*
+    public static Course createCourse(User user, Lecture... lectures) {
         Course course = new Course();
-        course.setUser(instructor);
+        course.setUser(user);
         for(Lecture lecture : lectures) {
             course.addLecture(lecture);
         }
         return course;
     }
+    */
 }

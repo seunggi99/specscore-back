@@ -8,7 +8,7 @@ import lombok.Data;
 @Builder
 @Data
 public class CourseResponse {
-    private User user; //강사
+    private String name; //강사
     private String title; //제목
     private int price; //강의 가격
     private String img;  //강의 대표 이미지
@@ -17,7 +17,7 @@ public class CourseResponse {
     private int likeCount; //좋아요 수
 
     public CourseResponse(Course course) {
-        this.user = course.getUser();
+        this.name = course.getUser().getUsername();
         this.title = course.getTitle();
         this.price = course.getPrice();
         this.img = course.getImg();

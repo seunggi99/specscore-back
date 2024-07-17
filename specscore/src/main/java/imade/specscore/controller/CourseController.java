@@ -1,6 +1,8 @@
 package imade.specscore.controller;
 
 import imade.specscore.domain.Course;
+import imade.specscore.domain.Lecture;
+import imade.specscore.dto.CourseDetailResponse;
 import imade.specscore.dto.CourseResponse;
 import imade.specscore.service.CourseService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,7 @@ import java.util.stream.Collectors;
 public class CourseController {
     private final CourseService courseService;
 
-    /* 전체 강의 목록 조회 */
+    /** 전체 강의 목록 조회 */
     @GetMapping("/list")
     public ResponseEntity<List<CourseResponse>> getAllCourseResponses() {
         List<Course> courses = courseService.findAllCourses();
@@ -30,10 +32,12 @@ public class CourseController {
     }
 
 
+    /** 강의 상세 */
     @GetMapping("/detail/{courseId}")
-    public ResponseEntity<CourseResponse> getCourseById(@PathVariable Long id) {
+    public ResponseEntity<CourseDetailResponse> getCourseDetails(@PathVariable Long id) {
         Course course = courseService.findCourseById(id);
-        return ResponseEntity.ok(new CourseResponse(course));
+        CourseDetailResponse courseDetail = new CourseDetailResponse(course);
+        return ResponseEntity.ok(courseDetail);
     }
 
 

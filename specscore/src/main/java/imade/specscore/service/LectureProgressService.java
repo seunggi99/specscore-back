@@ -8,5 +8,4 @@ import org.springframework.stereotype.Service;
 @Service @RequiredArgsConstructor
 public class LectureProgressService {
     private final LectureProgressRepository lectureProgressRepository;
-
 }
