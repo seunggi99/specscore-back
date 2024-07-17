@@ -61,4 +61,19 @@ public class Course {
     private int likeCount;
     private int sales;
 
+    /* 연관관계 편의 메서드 */
+    public void addLecture(Lecture lecture) {
+        lectures.add(lecture);
+        lecture.setCourse(this);
+    }
+
+    /* 강의 생성 메서드 */
+    public static Course createCourse(User instructor, Lecture... lectures) {
+        Course course = new Course();
+        course.setUser(instructor);
+        for(Lecture lecture : lectures) {
+            course.addLecture(lecture);
+        }
+        return course;
+    }
 }
