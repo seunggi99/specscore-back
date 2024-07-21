@@ -19,6 +19,8 @@ public class CourseAnswer {
     @JoinColumn(name = "course_question_id")
     private CourseQuestion courseQuestion;
 
+    private String username;  //username 추가 -> 후기에 작성자 표시
+
     private String title;
 
     private String content;

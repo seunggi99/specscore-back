@@ -12,10 +12,6 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class CourseService {
     private final CourseRepository courseRepository;
-    private final EnrollmentRepository enrollmentRepository;
-    private final ReviewRepository reviewRepository;
-    private final LectureRepository lectureRepository;
-    private final CourseRepository courseQuestionRepository;
 
     /** 전체 조회 */
     public List<Course> findAllCourses() {
