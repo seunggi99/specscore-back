@@ -60,26 +60,4 @@ public class Course {
     private int studentCount;
     private int likeCount;
     private int sales;
-
-    /* 연관관계 편의 메서드 */
-    public void addLecture(Lecture lecture) {
-        lectures.add(lecture);
-        lecture.setCourse(this);
-    }
-    public void setUser(User user) {
-        this.user = user;
-        user.getCourses().add(this);
-    }
-
-    /* 강의 생성 메서드 */
-    /*
-    public static Course createCourse(User user, Lecture... lectures) {
-        Course course = new Course();
-        course.setUser(user);
-        for(Lecture lecture : lectures) {
-            course.addLecture(lecture);
-        }
-        return course;
-    }
-    */
 }

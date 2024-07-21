@@ -43,5 +43,4 @@ public class Enrollment {
     private int progress;
 
     private boolean isCompleted;
-
 }

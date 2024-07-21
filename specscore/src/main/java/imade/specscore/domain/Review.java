@@ -23,6 +23,8 @@ public class Review {
     @JoinColumn(name = "enrollment_id")
     private Enrollment enrollment;
 
+    private String username;  //username 추가 -> 후기에 작성자 표시
+    
     private String title;
 
     private String content;

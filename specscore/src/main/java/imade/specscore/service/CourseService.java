@@ -1,24 +1,21 @@
 package imade.specscore.service;
 
 import imade.specscore.domain.*;
-import imade.specscore.repository.CourseRepository;
-import imade.specscore.repository.LectureProgressRepository;
-import imade.specscore.repository.LectureRepository;
-import imade.specscore.repository.UserRepository;
+import imade.specscore.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CourseService {
     private final CourseRepository courseRepository;
-    private final UserRepository userRepository;
+    private final EnrollmentRepository enrollmentRepository;
+    private final ReviewRepository reviewRepository;
     private final LectureRepository lectureRepository;
-    private final LectureProgressRepository lectureProgressRepository;
+    private final CourseRepository courseQuestionRepository;
 
     /** 전체 조회 */
     public List<Course> findAllCourses() {
@@ -30,5 +27,24 @@ public class CourseService {
         return courseRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("해당 강의가 존재하지 않습니다."));
     }
+
+    /** 강의 생성 */
+    /*
+    @Transactional
+    public Course createCourse(User user, CourseRequest courseRequest) {
+        Course course = new Course();
+        course.setTitle(courseRequest.getTitle());
+        course.setDescription(courseRequest.getDescription());
+        course.setUser(user);
+
+        courseRequest.getLectures().forEach(lectureRequest -> {
+            Lecture lecture = new Lecture();
+            lecture.setTitle(lectureRequest.getTitle());
+            lecture.setVideoUrl(lectureRequest.getVideoUrl());
+            course.addLecture(lecture);
+        });
+        return courseRepository.save(course);
+    }
+    */
 
 }

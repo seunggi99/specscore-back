@@ -31,10 +31,11 @@ public class CourseQuestion {
     @OneToMany(mappedBy = "courseQuestion", cascade = CascadeType.ALL)
     private List<CourseAnswer> courseAnswers = new ArrayList<>();
 
+    private String username;  //username 추가 -> 후기에 작성자 표시
+
     private String title;
 
     private String content;
 
     private LocalDate createdDate;
-
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Builder @Data
+//강의 상세
 public class CourseDetailResponse {
     private Long id;
     private String title;       //강의 제목
@@ -33,7 +34,6 @@ public class CourseDetailResponse {
 
         this.lectures = course.getLectures();
         this.reviews = course.getReviews();
-
         // Lecture에서 CourseQuestion을 끌어오는 로직
         this.questions = course.getLectures().stream()
                 .flatMap(lecture -> lecture.getCourseQuestions().stream())
@@ -48,6 +48,7 @@ public class CourseDetailResponse {
         private String content;
         private List<CourseAnswerResponse> answers;
 
+        /* CourseQuestion에서 CourseAnswer을 끌어오는 로작 */
         public CourseQuestionResponse(CourseQuestion question) {
             this.id = question.getId();
             this.title = question.getTitle();

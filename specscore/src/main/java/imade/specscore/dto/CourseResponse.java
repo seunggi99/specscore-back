@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Builder
 @Data
+//강의 목록
 public class CourseResponse {
     private String name; //강사
     private String title; //제목
