@@ -6,6 +6,7 @@ import imade.specscore.dto.CourseResponse;
 import imade.specscore.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,9 +30,9 @@ public class CourseController {
 
     /** Course 상세 */
     @GetMapping("/detail/{courseId}")
-    public ResponseEntity<CourseDetailResponse> getCourseDetails(@PathVariable Long courseId) {
+    public ResponseEntity<CourseDetailResponse> getCourseDetails(@PathVariable Long courseId, @AuthenticationPrincipal User user) {
         Course course = courseService.findCourseById(courseId);
-        CourseDetailResponse courseDetail = new CourseDetailResponse(course);
+        CourseDetailResponse courseDetail = new CourseDetailResponse(course, user);
         return ResponseEntity.ok(courseDetail);
     }
 }
