@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class CourseController {
     private final CourseService courseService;
 
-    /** 전체 강의 목록 조회 */
+    /** 모든 Course 조회 */
     @GetMapping("/list")
     public ResponseEntity<List<CourseResponse>> getAllCourse() {
         List<Course> courses = courseService.findAllCourses();
@@ -27,7 +27,7 @@ public class CourseController {
         return ResponseEntity.ok(courseResponses);
     }
 
-    /** 강의 상세 */
+    /** Course 상세 */
     @GetMapping("/detail/{courseId}")
     public ResponseEntity<CourseDetailResponse> getCourseDetails(@PathVariable Long courseId) {
         Course course = courseService.findCourseById(courseId);

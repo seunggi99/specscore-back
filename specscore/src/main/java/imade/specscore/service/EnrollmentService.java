@@ -22,15 +22,15 @@ public class EnrollmentService {
     private final LectureRepository lectureRepository;
     private final LectureProgressRepository lectureProgressRepository;
 
-    /** 등록 강의 전체 조회 */
-    public List<Course> findCoursesByUser(User user) {
+    /** 사용자의 등록 강의 목록 조회 */
+    public List<Course> findEnrollmentByUser(User user) {
         List<Enrollment> enrollments = enrollmentRepository.findByUser(user);
         return enrollments.stream()
                 .map(Enrollment::getCourse)
                 .collect(Collectors.toList());
     }
 
-    /** 수강 등록 */
+    /** 강의 수강 등록 */
     @Transactional
     public Enrollment enrollment(Long courseId, User user) {
         Course course = courseRepository.findById(courseId).orElseThrow(() -> new RuntimeException("Course not found"));

@@ -13,12 +13,12 @@ import java.util.List;
 public class CourseService {
     private final CourseRepository courseRepository;
 
-    /** 전체 조회 */
+    /** 모든 Course 조회 */
     public List<Course> findAllCourses() {
         return courseRepository.findAll();
     }
 
-    /** 단건 조회 */
+    /** 특정 Course 조회 */
     public Course findCourseById(Long id) {
         return courseRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("해당 강의가 존재하지 않습니다."));

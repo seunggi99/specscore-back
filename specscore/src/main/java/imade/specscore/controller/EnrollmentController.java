@@ -16,10 +16,10 @@ import java.util.List;
 public class EnrollmentController {
     private final EnrollmentService enrollmentService;
 
-    /** 사용자가 등록한 강의 목록 조회 */
+    /** 사용자의 등록 강의 목록 조회 */
     @GetMapping("myPage/myCourse")
     public ResponseEntity<List<Course>> getMyCourses(@AuthenticationPrincipal User user) {
-        List<Course> courses = enrollmentService.findCoursesByUser(user);
+        List<Course> courses = enrollmentService.findEnrollmentByUser(user);
         return ResponseEntity.ok(courses);
     }
 

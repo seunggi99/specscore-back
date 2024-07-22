@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CourseAnswerController {
     private final CourseAnswerService courseAnswerService;
-    /** 답변 생성 */
+
+    /** Question에 대한 답변 생성 */
     @PostMapping("/{questionId}/answer/create")
     public ResponseEntity<CourseAnswer> createAnswer(@PathVariable Long questionId, @AuthenticationPrincipal User user, @RequestBody CourseQARequest request) {
         if (!user.getRole().equals(Role.ROLE_INSTRUCTOR)) {

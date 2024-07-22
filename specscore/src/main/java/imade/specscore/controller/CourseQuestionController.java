@@ -4,6 +4,7 @@ import imade.specscore.domain.CourseQuestion;
 import imade.specscore.domain.Role;
 import imade.specscore.domain.User;
 import imade.specscore.dto.CourseQARequest;
+import imade.specscore.dto.CourseQAResponse;
 import imade.specscore.service.CourseQuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,18 +19,26 @@ import java.util.List;
 public class CourseQuestionController {
     private final CourseQuestionService courseQuestionService;
 
-    /** Course에 대한 전체 질문 조회 */ // -> 나중에 동적 조회로 구현 필요
+    /** Course에 대한 전체 질문 조회 (특정 강의 전체 질문) */ // -> 나중에 동적 조회로 구현 필요
     @GetMapping("/course/detail/{courseId}/courseQuestion/list")
     public ResponseEntity<List<CourseQuestion>> getAllQuestionsByCourse(@PathVariable Long courseId) {
         List<CourseQuestion> questions = courseQuestionService.findAllQuestionsByCourse(courseId);
         return ResponseEntity.ok(questions);
     }
 
-    /** Lecture에 대한 전체 질문 조회 */
+    /** Lecture에 대한 전체 질문 조회 (특정 강의 특정 목차에 대한 전체 질문) */
     @GetMapping("/course/detail/{lectureId}/lectureQuestion/list")
     public ResponseEntity<List<CourseQuestion>> getAllQuestionsByLecture(@PathVariable Long lectureId) {
         List<CourseQuestion> questions = courseQuestionService.findAllQuestionsByLecture(lectureId);
         return ResponseEntity.ok(questions);
+    }
+
+    /** 특정 질문 조회 (답변까지) */
+    @GetMapping("/course/detail/lecture/{questionId}/lectureQuestionDetail")
+    public ResponseEntity<CourseQAResponse> getQuestionsWithAnswer(@PathVariable Long questionId) {
+        CourseQuestion courseQuestion = courseQuestionService.findQuestionWithAnswer(questionId);
+        CourseQAResponse questionsWithAnswers = new CourseQAResponse(courseQuestion);
+        return ResponseEntity.ok(questionsWithAnswers);
     }
 
     /** Lecture에 대한 질문 생성 */
@@ -41,4 +50,5 @@ public class CourseQuestionController {
         CourseQuestion question = courseQuestionService.createQuestion(lectureId, user, request);
         return ResponseEntity.ok(question);
     }
+
 }

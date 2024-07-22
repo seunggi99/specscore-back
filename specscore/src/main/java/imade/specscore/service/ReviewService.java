@@ -22,7 +22,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final EnrollmentRepository enrollmentRepository;
 
-    /** 특정 강의 리뷰 전체 조회 */
+    /** Course 리뷰 전체 조회 */
     public List<Review> findAllReview(Long courseId) {
         return reviewRepository.findByCourseId(courseId);
     }

@@ -14,19 +14,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class CourseAnswerService {
     private final CourseQuestionRepository courseQuestionRepository;
     private final CourseAnswerRepository courseAnswerRepository;
-    /** 답변 생성 */
+
+    /** Question에 대한 답변 생성 */
     @Transactional
     public CourseAnswer createAnswer(Long questionId, User user, CourseQARequest request) {
         CourseQuestion question = courseQuestionRepository.findById(questionId)
                 .orElseThrow(() -> new RuntimeException("CourseQuestion not found"));
-
         CourseAnswer answer = new CourseAnswer();
         answer.setCourseQuestion(question);
         answer.setUsername(user.getUsername());
         answer.setTitle(request.getTitle());
         answer.setContent(request.getContent());
         answer.setCreatedDate(request.getCreatedDate());
-
         return courseAnswerRepository.save(answer);
     }
 }

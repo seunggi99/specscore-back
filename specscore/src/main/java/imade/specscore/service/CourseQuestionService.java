@@ -3,6 +3,7 @@ package imade.specscore.service;
 
 import imade.specscore.domain.*;
 import imade.specscore.dto.CourseQARequest;
+import imade.specscore.dto.CourseQAResponse;
 import imade.specscore.repository.CourseQuestionRepository;
 import imade.specscore.repository.CourseRepository;
 import imade.specscore.repository.EnrollmentRepository;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +33,12 @@ public class CourseQuestionService {
     /** Lecture에 대한 전체 질문 조회 */
     public List<CourseQuestion> findAllQuestionsByLecture(Long lectureId) {
         return courseQuestionRepository.findByLectureId(lectureId);
+    }
+
+    /** 특정 질문 조회 */
+    public CourseQuestion findQuestionWithAnswer(Long questionId) {
+        return courseQuestionRepository.findById(questionId)
+                .orElseThrow(() -> new RuntimeException("Question not found"));
     }
 
     /** Lecture에 대한 질문 생성 */

@@ -20,7 +20,7 @@ import java.util.List;
 public class ReviewController {
     private final ReviewService reviewService;
 
-    /** 특정 강의 리뷰 전체 조회 */
+    /** Course 리뷰 전체 조회 */
     @GetMapping("/{courseId}/review/list")
     public ResponseEntity<List<Review>> getAllCourseReview(@PathVariable Long courseId) {
         List<Review> responses = reviewService.findAllReview(courseId);
