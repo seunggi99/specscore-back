@@ -17,14 +17,14 @@ public class EnrollmentController {
     private final EnrollmentService enrollmentService;
 
     /** 사용자의 등록 강의 목록 조회 */
-    @GetMapping("myPage/myCourse")
+    @GetMapping("/myPage/myCourse")
     public ResponseEntity<List<Course>> getMyCourses(@AuthenticationPrincipal User user) {
         List<Course> courses = enrollmentService.findEnrollmentByUser(user);
         return ResponseEntity.ok(courses);
     }
 
     /** 강의 수강 등록 */
-    @PostMapping("course/detail/{courseId}/enrollment")
+    @PostMapping("/course/{courseId}/detail/enrollment")
     public ResponseEntity<Enrollment> enrollmentCourse(@PathVariable Long courseId, @AuthenticationPrincipal User user) {
         Enrollment enrollment = enrollmentService.enrollment(courseId, user);
         return ResponseEntity.ok(enrollment);

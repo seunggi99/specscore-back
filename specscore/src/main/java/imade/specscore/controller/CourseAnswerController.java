@@ -12,13 +12,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("course/detail/lecture")
+@RequestMapping("/course")
 @RequiredArgsConstructor
 public class CourseAnswerController {
     private final CourseAnswerService courseAnswerService;
 
     /** Question에 대한 답변 생성 */
-    @PostMapping("/{questionId}/answer/create")
+    @PostMapping("/detail/question/{questionId}/questionDetail/answer/create")
     public ResponseEntity<CourseAnswer> createAnswer(@PathVariable Long questionId, @AuthenticationPrincipal User user, @RequestBody CourseQARequest request) {
         if (!user.getRole().equals(Role.ROLE_INSTRUCTOR)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();

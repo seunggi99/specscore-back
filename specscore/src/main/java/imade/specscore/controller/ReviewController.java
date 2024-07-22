@@ -15,20 +15,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("course/detail")
+@RequestMapping("/course")
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
 
     /** Course 리뷰 전체 조회 */
-    @GetMapping("/{courseId}/review/list")
+    @GetMapping("/{courseId}/detail/review/list")
     public ResponseEntity<List<Review>> getAllCourseReview(@PathVariable Long courseId) {
         List<Review> responses = reviewService.findAllReview(courseId);
         return ResponseEntity.ok(responses);
     }
 
     /** 리뷰 작성 */
-    @PostMapping("/{courseId}/review/create")
+    @PostMapping("/{courseId}/detail/review/create")
     public ResponseEntity<Review> createReview(@PathVariable Long courseId, @AuthenticationPrincipal User user, @RequestBody ReviewRequest reviewRequest) {
         if (!user.getRole().equals(Role.ROLE_USER)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();

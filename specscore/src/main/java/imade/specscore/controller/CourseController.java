@@ -29,7 +29,7 @@ public class CourseController {
     }
 
     /** Course 상세 */
-    @GetMapping("/detail/{courseId}")
+    @GetMapping("/{courseId}/detail")
     public ResponseEntity<CourseDetailResponse> getCourseDetails(@PathVariable Long courseId, @AuthenticationPrincipal User user) {
         Course course = courseService.findCourseById(courseId);
         CourseDetailResponse courseDetail = new CourseDetailResponse(course, user);
