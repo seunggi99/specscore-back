@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Builder @Data
+@Data
 //강의 상세
 public class CourseDetailResponse {
     private Long id;

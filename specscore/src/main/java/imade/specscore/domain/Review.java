@@ -33,5 +33,5 @@ public class Review {
 
     private LocalDate createDate;
 
-    private boolean like;
+    private boolean liked;
 }

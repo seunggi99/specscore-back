@@ -5,7 +5,6 @@ import imade.specscore.domain.User;
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
 @Data
 //강의 목록
 public class CourseResponse {

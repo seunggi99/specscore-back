@@ -41,7 +41,7 @@ public class ReviewService {
         review.setTitle(reviewRequest.getTitle());
         review.setContent(reviewRequest.getContent());
         review.setRating(reviewRequest.getRating());    //별점
-        review.setLike(reviewRequest.isLike());         //좋아요
+        review.setLiked(reviewRequest.isLiked());         //좋아요
         review.setCreateDate(reviewRequest.getCreateDate());
         review.setUsername(user.getUsername());  //작성자
 
@@ -49,7 +49,7 @@ public class ReviewService {
         review.setEnrollment(enrollment);
 
         // 좋아요 + 1
-        if(reviewRequest.isLike()) {
+        if(reviewRequest.isLiked()) {
             int currentLike = course.getLikeCount();
             course.setLikeCount(currentLike + 1);
         }

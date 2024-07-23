@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,11 +24,16 @@ public class CourseQuestionService {
     private final LectureRepository lectureRepository;
     private final CourseQuestionRepository courseQuestionRepository;
     private final EnrollmentRepository enrollmentRepository;
-//    private final CourseRepository courseRepository;
 
     /** Course에 대한 전체 질문 조회 */
     public List<CourseQuestion> findAllQuestionsByCourse(Long courseId) {
-        return courseQuestionRepository.findByCourseId(courseId);
+        List<Lecture> lectures =lectureRepository.findByCourseId(courseId);
+        List<CourseQuestion> courseQuestionList = new ArrayList<>();
+        for (Lecture lecture : lectures) {
+            List<CourseQuestion> questionsForLecture = courseQuestionRepository.findByLectureId(lecture.getId());
+            courseQuestionList.addAll(questionsForLecture);
+        }
+        return courseQuestionList;
     }
 
     /** Lecture에 대한 전체 질문 조회 */

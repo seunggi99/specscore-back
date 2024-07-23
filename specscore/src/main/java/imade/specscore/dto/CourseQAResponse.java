@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data @Builder
+@Data
 public class CourseQAResponse {
     private Long questionId;
     private String questionTitle;

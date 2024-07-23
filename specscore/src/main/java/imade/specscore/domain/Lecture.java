@@ -37,5 +37,5 @@ public class Lecture {
 
     private String videoUrl;
 
-    private int order;
+    private int orders;
 }
