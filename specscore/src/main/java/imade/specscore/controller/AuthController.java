@@ -1,9 +1,9 @@
 package imade.specscore.controller;
 
-import imade.specscore.dto.JwtRequest;
-import imade.specscore.dto.JwtResponse;
-import imade.specscore.dto.SigninRequest;
-import imade.specscore.dto.SignupRequest;
+import imade.specscore.dto.userDto.JwtRequest;
+import imade.specscore.dto.userDto.JwtResponse;
+import imade.specscore.dto.userDto.SigninRequest;
+import imade.specscore.dto.userDto.SignupRequest;
 import imade.specscore.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

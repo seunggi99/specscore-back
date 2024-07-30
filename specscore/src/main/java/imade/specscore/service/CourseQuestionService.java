@@ -2,10 +2,9 @@
 package imade.specscore.service;
 
 import imade.specscore.domain.*;
-import imade.specscore.dto.CourseQARequest;
-import imade.specscore.dto.CourseQAResponse;
+import imade.specscore.dto.CourseQuestionRequest;
+import imade.specscore.dto.CourseQuestionResponse;
 import imade.specscore.repository.CourseQuestionRepository;
-import imade.specscore.repository.CourseRepository;
 import imade.specscore.repository.EnrollmentRepository;
 import imade.specscore.repository.LectureRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,46 +23,45 @@ public class CourseQuestionService {
     private final CourseQuestionRepository courseQuestionRepository;
     private final EnrollmentRepository enrollmentRepository;
 
-    /** Course에 대한 전체 질문 조회 */
-    public List<CourseQuestion> findAllQuestionsByCourse(Long courseId) {
-        List<Lecture> lectures =lectureRepository.findByCourseId(courseId);
+    /* 강의 목차에 대한 질문 생성 */
+    @Transactional
+    public Long createCourseQuestion(Long lectureId, User user, CourseQuestionRequest courseQuestionRequest) {
+        Lecture lecture = lectureRepository.findById(lectureId)
+                .orElseThrow(() -> new IllegalArgumentException("Lecture not found"));
+        Enrollment enrollment = enrollmentRepository.findByCourseIdAndUserId(lecture.getCourse().getId(), user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Lecture not found"));
+        CourseQuestion courseQuestion = CourseQuestion.createCourseQuestion(
+                lecture, enrollment, user.getUsername(), courseQuestionRequest);
+        courseQuestionRepository.save(courseQuestion);
+        return courseQuestion.getId();
+    }
+
+    /* 전체 질문 조회 (강의) */
+    public List<CourseQuestionResponse> findQuestionsByCourseId(Long courseId) {
+        List<Lecture> lectures = lectureRepository.findByCourseId(courseId);
         List<CourseQuestion> courseQuestionList = new ArrayList<>();
         for (Lecture lecture : lectures) {
             List<CourseQuestion> questionsForLecture = courseQuestionRepository.findByLectureId(lecture.getId());
             courseQuestionList.addAll(questionsForLecture);
         }
-        return courseQuestionList;
+        return courseQuestionList.stream()
+                .map(CourseQuestionResponse::new)
+                .collect(Collectors.toList());
     }
 
-    /** Lecture에 대한 전체 질문 조회 */
-    public List<CourseQuestion> findAllQuestionsByLecture(Long lectureId) {
-        return courseQuestionRepository.findByLectureId(lectureId);
+    /* 전체 질문 조회 (강의 목차) */
+    public List<CourseQuestionResponse> findQuestionsByLectureId(Long lectureId) {
+        List<CourseQuestion> courseQuestions = courseQuestionRepository.findByLectureId(lectureId);
+        return courseQuestions.stream()
+                .map(CourseQuestionResponse::new)
+                .collect(Collectors.toList());
     }
 
-    /** 특정 질문 조회 */
-    public CourseQuestion findQuestionWithAnswer(Long questionId) {
-        return courseQuestionRepository.findById(questionId)
+    /* 질문 및 답변 (질문 상세) */
+    public CourseQuestionResponse.CourseQuestionWithAnswerResponse findQuestionWithAnswerByQuestionId(Long questionId) {
+        CourseQuestion courseQuestion = courseQuestionRepository.findById(questionId)
                 .orElseThrow(() -> new RuntimeException("Question not found"));
+        return new CourseQuestionResponse.CourseQuestionWithAnswerResponse(courseQuestion);
     }
 
-    /** Lecture에 대한 질문 생성 */
-    @Transactional
-    public CourseQuestion createQuestion(Long lectureId, User user, CourseQARequest request) {
-        Lecture lecture = lectureRepository.findById(lectureId)
-                .orElseThrow(() -> new RuntimeException("Lecture not found"));
-        Course course = lecture.getCourse(); // 강의에서 강의(Course) 가져오기
-        //Course course = courseRepository.findByCourseId(courseId);
-        // 해당 강의(Course)와 사용자(User)를 기반으로 등록 정보(Enrollment) 찾기
-        Enrollment enrollment = enrollmentRepository.findByCourseAndUser(course, user)
-                .orElseThrow(() -> new RuntimeException("Enrollment not found for the given user and course"));
-
-        CourseQuestion question = new CourseQuestion();
-        question.setLecture(lecture);
-        question.setEnrollment(enrollment);
-        question.setTitle(request.getTitle());
-        question.setContent(request.getContent());
-        question.setCreatedDate(request.getCreatedDate());
-        question.setUsername(user.getUsername());  //작성자 추가
-        return courseQuestionRepository.save(question);
-    }
 }

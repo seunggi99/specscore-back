@@ -1,10 +1,10 @@
 package imade.specscore.service;
 
 import imade.specscore.domain.User;
-import imade.specscore.dto.JwtRequest;
-import imade.specscore.dto.JwtResponse;
-import imade.specscore.dto.SigninRequest;
-import imade.specscore.dto.SignupRequest;
+import imade.specscore.dto.userDto.JwtRequest;
+import imade.specscore.dto.userDto.JwtResponse;
+import imade.specscore.dto.userDto.SigninRequest;
+import imade.specscore.dto.userDto.SignupRequest;
 import imade.specscore.exception.UsernameAlreadyExistsException;
 import imade.specscore.repository.UserRepository;
 import imade.specscore.utill.JWTUtils;

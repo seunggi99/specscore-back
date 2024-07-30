@@ -1,13 +1,9 @@
 package imade.specscore.dto;
 
-import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDate;
-
 @Data
-public class ReviewRequest {
+public class CourseAnswerRequest {
     private String title;
     private String content;
-    private int rating;
 }

@@ -28,4 +28,16 @@ public class LectureProgress {
     private int progress;
 
     private LocalDate lastAccessed;
+
+    //==생성 메서드==//
+    public static LectureProgress createLectureProgress(Lecture lecture, Enrollment enrollment) {
+        LectureProgress lectureProgress = new LectureProgress();
+        lectureProgress.setCompleted(false);
+        lectureProgress.setProgress(0);
+        lectureProgress.setLastAccessed(LocalDate.now());
+
+        lectureProgress.setLecture(lecture);
+        lectureProgress.setEnrollment(enrollment);
+        return lectureProgress;
+    }
 }

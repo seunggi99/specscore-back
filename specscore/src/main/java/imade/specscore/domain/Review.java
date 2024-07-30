@@ -1,5 +1,6 @@
 package imade.specscore.domain;
 
+import imade.specscore.dto.ReviewRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,4 +35,20 @@ public class Review {
     private LocalDate createDate;
 
     private boolean liked;
+
+    //==생성 메서드==//
+    public static Review createReview(Course course, Enrollment enrollment, String username, ReviewRequest reviewRequest) {
+        Review review = new Review();
+        review.setTitle(reviewRequest.getTitle());
+        review.setContent(reviewRequest.getContent());
+        review.setRating(review.getRating());
+
+        review.setCreateDate(LocalDate.now());
+        review.setLiked(false);
+
+        review.setUsername(username);
+        review.setCourse(course);
+        review.setEnrollment(enrollment);
+        return review;
+    }
 }

@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LectureProgressRepository extends JpaRepository<LectureProgress, Long> {
-    Optional<LectureProgress> findByEnrollmentAndLecture(Enrollment enrollment, Lecture lecture);
-    //SELECT l FROM LectureProgress l WHERE l.enrollment = :enrollment AND l.lecture = :lecture
-    List<LectureProgress> findByEnrollment(Enrollment enrollment);
+    /* enrollmentId, 와 lectureId로 LectureProgress 찾기 */
+    Optional<LectureProgress> findByEnrollmentIdAndLectureId(Long enrollmentId, Long lectureId);
+
+    /* enrollmentId로 전체 LectureProgress 찾기 */
+    List<LectureProgress> findByEnrollmentId(Long enrollmentId);
 }

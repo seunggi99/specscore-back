@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 //강의 목록
 public class CourseResponse {
+    private Long courseId;
     private String name; //강사
     private String title; //제목
     private int price; //강의 가격
@@ -17,6 +18,7 @@ public class CourseResponse {
     private int likeCount; //좋아요 수
 
     public CourseResponse(Course course) {
+        this.courseId = course.getId();
         this.name = course.getUser().getUsername();
         this.title = course.getTitle();
         this.price = course.getPrice();

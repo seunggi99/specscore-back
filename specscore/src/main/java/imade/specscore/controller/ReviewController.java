@@ -1,10 +1,9 @@
 package imade.specscore.controller;
 
-import imade.specscore.domain.Course;
-import imade.specscore.domain.Review;
-import imade.specscore.domain.Role;
-import imade.specscore.domain.User;
+import imade.specscore.domain.*;
 import imade.specscore.dto.ReviewRequest;
+import imade.specscore.dto.ReviewResponse;
+import imade.specscore.service.EnrollmentService;
 import imade.specscore.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,21 +18,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
+    private final EnrollmentService enrollmentService;
 
-    /** Course 리뷰 전체 조회 */
-    @GetMapping("/{courseId}/detail/review/list")
-    public ResponseEntity<List<Review>> getAllCourseReview(@PathVariable Long courseId) {
-        List<Review> responses = reviewService.findAllReview(courseId);
-        return ResponseEntity.ok(responses);
+    /* 강의에 대한 리뷰 생성 */
+    @PostMapping("/{courseId}/detail/review/create")
+    public ResponseEntity<Long> createReview(@PathVariable Long courseId, @AuthenticationPrincipal User user, @RequestBody ReviewRequest reviewRequest) {
+        if (!user.getRole().equals(Role.ROLE_USER)) {return ResponseEntity.status(HttpStatus.FORBIDDEN).build();}
+        Enrollment enrollment = enrollmentService.findByCourseIdAndUser(courseId, user);
+        return ResponseEntity.ok(reviewService.createReview(courseId, enrollment.getId(), user, reviewRequest));
     }
 
-    /** 리뷰 작성 */
-    @PostMapping("/{courseId}/detail/review/create")
-    public ResponseEntity<Review> createReview(@PathVariable Long courseId, @AuthenticationPrincipal User user, @RequestBody ReviewRequest reviewRequest) {
-        if (!user.getRole().equals(Role.ROLE_USER)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-        Review review = reviewService.createReview(courseId, user, reviewRequest);
-        return ResponseEntity.ok(review);
+    /* 강의 리뷰 전체 조회 */
+    @GetMapping("/{courseId}/detail/review/list")
+    public ResponseEntity<List<ReviewResponse>> getReviewsByCourseId(@PathVariable Long courseId) {
+        return ResponseEntity.ok(reviewService.findReviewsByCourseId(courseId));
     }
 }

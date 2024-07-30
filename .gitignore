@@ -228,3 +228,4 @@ gradle-app.setting
 
 # Ignore application.properties
 application.properties
+application-dev.properties

@@ -1,6 +1,7 @@
 package imade.specscore.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import imade.specscore.dto.CourseRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -60,4 +61,28 @@ public class Course {
     private int studentCount;
     private int likeCount;
     private int sales;
+
+    //== 생성 메서드 ==//
+    public static Course createCourse(CourseRequest courseRequest, User user) {
+        Course course = new Course();
+        course.setTitle(courseRequest.getTitle());
+        course.setDescription(courseRequest.getDescription());
+        course.setGoal(courseRequest.getGoal());
+        course.setExpected_effects(courseRequest.getExpectedEffects());
+
+        course.setCreated_date(LocalDate.now());
+        course.setModified_date(LocalDate.now());
+
+        course.setStatus(courseRequest.isStatus());
+        course.setPrice(courseRequest.getPrice());
+        course.setImg(courseRequest.getImg());
+        course.setRatingAvg(courseRequest.getRatingAvg());
+        course.setReadCount(courseRequest.getReadCount());
+        course.setStudentCount(courseRequest.getStudentCount());
+        course.setLikeCount(courseRequest.getLikeCount());
+        course.setSales(courseRequest.getSales());
+
+        course.setUser(user);
+        return course;
+    }
 }

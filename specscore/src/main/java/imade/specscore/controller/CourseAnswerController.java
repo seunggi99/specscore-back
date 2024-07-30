@@ -1,9 +1,8 @@
 package imade.specscore.controller;
 
-import imade.specscore.domain.CourseAnswer;
 import imade.specscore.domain.Role;
 import imade.specscore.domain.User;
-import imade.specscore.dto.CourseQARequest;
+import imade.specscore.dto.CourseAnswerRequest;
 import imade.specscore.service.CourseAnswerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,13 +16,10 @@ import org.springframework.web.bind.annotation.*;
 public class CourseAnswerController {
     private final CourseAnswerService courseAnswerService;
 
-    /** Question에 대한 답변 생성 */
+    /* 질문에 대한 답변 생성 */
     @PostMapping("/detail/question/{questionId}/questionDetail/answer/create")
-    public ResponseEntity<CourseAnswer> createAnswer(@PathVariable Long questionId, @AuthenticationPrincipal User user, @RequestBody CourseQARequest request) {
-        if (!user.getRole().equals(Role.ROLE_INSTRUCTOR)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-        CourseAnswer answer = courseAnswerService.createAnswer(questionId, user, request);
-        return ResponseEntity.ok(answer);
+    public ResponseEntity<Long> createAnswer(@PathVariable Long questionId, @AuthenticationPrincipal User user, @RequestBody CourseAnswerRequest request) {
+        if (!user.getRole().equals(Role.ROLE_INSTRUCTOR)) {return ResponseEntity.status(HttpStatus.FORBIDDEN).build();}
+        return ResponseEntity.ok(courseAnswerService.createAnswer(questionId, user, request));
     }
 }

@@ -1,5 +1,6 @@
 package imade.specscore.domain;
 
+import imade.specscore.dto.CourseAnswerRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,5 +27,18 @@ public class CourseAnswer {
     private String content;
 
     private LocalDate createdDate;
+
+    //==생성 메서드==//
+    public static CourseAnswer createCourseAnswer(CourseQuestion courseQuestion, String username, CourseAnswerRequest courseAnswerRequest) {
+        CourseAnswer courseAnswer = new CourseAnswer();
+        courseAnswer.setTitle(courseAnswerRequest.getTitle());
+        courseAnswer.setContent(courseAnswerRequest.getContent());
+
+        courseAnswer.setCreatedDate(LocalDate.now());
+
+        courseAnswer.setCourseQuestion(courseQuestion);
+        courseAnswer.setUsername(username);
+        return courseAnswer;
+    }
 
 }

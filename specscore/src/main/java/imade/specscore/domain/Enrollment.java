@@ -43,4 +43,16 @@ public class Enrollment {
     private int progress;
 
     private boolean isCompleted;
+
+    //==생성 메서드==//
+    public static Enrollment createEnrollment(Course course, User user) {
+        Enrollment enrollment = new Enrollment();
+        enrollment.setEnrollmentDate(LocalDate.now());
+        enrollment.setProgress(0);
+        enrollment.setCompleted(false);
+
+        enrollment.setCourse(course);
+        enrollment.setUser(user);
+        return enrollment;
+    }
 }

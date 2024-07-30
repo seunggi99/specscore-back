@@ -9,9 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
-    Optional<Enrollment> findByCourseAndUser(Course course, User user);
-    //SELECT e FROM Enrollment e WHERE e.course = :course AND e.user = :user
+    /* userId로 전체 enrollment 찾기 */
+    List<Enrollment> findByUserId(Long userId);
 
-    List<Enrollment> findByUser(User user);
+    /* courseId, userId로 enrollment 찾기 */
+    Optional<Enrollment> findByCourseIdAndUserId(Long courseId, Long userId);
 
 }

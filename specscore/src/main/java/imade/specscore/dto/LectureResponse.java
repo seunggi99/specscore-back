@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 public class LectureResponse {
-    private Long id;
+    private Long lectureId;
     private String title;
     private String content;
     private String courseFileUrl;// 자료 파일 URL
@@ -19,7 +19,7 @@ public class LectureResponse {
     private double progress;     // 강의 수강률
 
     public LectureResponse(Lecture lecture, User user) {
-        this.id = lecture.getId();
+        this.lectureId = lecture.getId();
         this.title = lecture.getTitle();
         this.content = lecture.getContent();
         this.courseFileUrl = lecture.getCourseFileUrl();
