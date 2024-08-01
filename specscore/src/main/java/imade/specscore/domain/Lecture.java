@@ -43,11 +43,11 @@ public class Lecture {
     //== 생성 메서드 ==//
     public static Lecture createLecture(Course course, LectureRequest lectureRequest) {
         Lecture lecture = new Lecture();
-        lecture.setTitle(lecture.getTitle());
-        lecture.setContent(lecture.getContent());
-        lecture.setCourseFileUrl(lecture.getCourseFileUrl());
-        lecture.setVideoUrl(lecture.getVideoUrl());
-        lecture.setOrders(lecture.getOrders());
+        lecture.setTitle(lectureRequest.getTitle());
+        lecture.setContent(lectureRequest.getContent());
+        lecture.setCourseFileUrl(lectureRequest.getCourseFileUrl());
+        lecture.setVideoUrl(lectureRequest.getVideoUrl());
+        lecture.setOrders(lectureRequest.getOrders());
 
         lecture.setCourse(course);
         return lecture;

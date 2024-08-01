@@ -14,20 +14,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/course")
 @RequiredArgsConstructor
 public class LectureController {
     private final LectureService lectureService;
 
-    /* 강의 목차 생성 */
-    @PostMapping("/{courseId}/lecture/create")
-    public ResponseEntity<Long> createLecture(@PathVariable Long courseId, @RequestBody LectureRequest request, @AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(lectureService.createLecture(courseId, request, user));
-    }
-
     /* 강의 목차 상세  */
-    @GetMapping("/{courseId}/detail/lecture/list")
-    public ResponseEntity<List<LectureResponse>> getLecturesByCourse(@PathVariable Long courseId, @AuthenticationPrincipal User user) {
+    @GetMapping("/user/course/{courseId}/detail/lecture/list")
+    public ResponseEntity<List<LectureResponse>> getLecturesByCourse(@PathVariable("courseId") Long courseId, @AuthenticationPrincipal User user) {
         return ResponseEntity.ok(lectureService.findLecturesByCourse(courseId ,user));
     }
 }

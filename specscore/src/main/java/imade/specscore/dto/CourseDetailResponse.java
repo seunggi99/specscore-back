@@ -20,8 +20,7 @@ public class CourseDetailResponse {
     private EnrollmentResponse enrollmentProgress;  //유저의 수강률
     private List<ReviewResponse> reviews;   //수강 후기 (작성자,별점,내용)
     private List<LectureResponse> lectures;
-    private List<CourseQuestionResponse.CourseQuestionWithAnswerResponse> questions; //학생질문 (작성자,제목,내용) + 강사답변 (답변)
-    //private List<CourseAnswer> answers;
+    private List<CourseQuestionResponse.CourseQuestionWithAnswerResponse> questions; //학생 질문 (작성자,제목,내용) + 강사답변 (답변)
 
     public CourseDetailResponse(Course course, Enrollment enrollment) {
         this.id = course.getId();
@@ -31,7 +30,6 @@ public class CourseDetailResponse {
         this.expectedEffects = course.getExpected_effects();
         this.img = course.getImg();
         this.ratingAvg = course.getRatingAvg();
-
 
         this.enrollmentProgress = new EnrollmentResponse(enrollment);
 

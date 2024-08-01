@@ -14,23 +14,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/course")
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
     private final EnrollmentService enrollmentService;
 
     /* 강의에 대한 리뷰 생성 */
-    @PostMapping("/{courseId}/detail/review/create")
-    public ResponseEntity<Long> createReview(@PathVariable Long courseId, @AuthenticationPrincipal User user, @RequestBody ReviewRequest reviewRequest) {
-        if (!user.getRole().equals(Role.ROLE_USER)) {return ResponseEntity.status(HttpStatus.FORBIDDEN).build();}
+    @PostMapping("/user/course/{courseId}/detail/review/create")
+    public ResponseEntity<Long> createReview(@PathVariable("courseId") Long courseId, @AuthenticationPrincipal User user, @RequestBody ReviewRequest reviewRequest) {
         Enrollment enrollment = enrollmentService.findByCourseIdAndUser(courseId, user);
         return ResponseEntity.ok(reviewService.createReview(courseId, enrollment.getId(), user, reviewRequest));
     }
 
     /* 강의 리뷰 전체 조회 */
-    @GetMapping("/{courseId}/detail/review/list")
-    public ResponseEntity<List<ReviewResponse>> getReviewsByCourseId(@PathVariable Long courseId) {
+    @GetMapping("/user/course/{courseId}/detail/review/list")
+    public ResponseEntity<List<ReviewResponse>> getReviewsByCourseId(@PathVariable("courseId") Long courseId) {
         return ResponseEntity.ok(reviewService.findReviewsByCourseId(courseId));
     }
 }

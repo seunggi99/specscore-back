@@ -41,7 +41,7 @@ public class Review {
         Review review = new Review();
         review.setTitle(reviewRequest.getTitle());
         review.setContent(reviewRequest.getContent());
-        review.setRating(review.getRating());
+        review.setRating(reviewRequest.getRating());
 
         review.setCreateDate(LocalDate.now());
         review.setLiked(false);

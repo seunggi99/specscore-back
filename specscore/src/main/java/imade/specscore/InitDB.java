@@ -6,112 +6,158 @@ import imade.specscore.repository.*;
 import imade.specscore.service.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-@Profile("test")
 public class InitDB {
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
     private final EnrollmentRepository enrollmentRepository;
     private final LectureRepository lectureRepository;
     private final LectureProgressRepository lectureProgressRepository;
-    private final ReviewRepository reviewRepository;
     private final CourseQuestionRepository courseQuestionRepository;
     private final CourseAnswerRepository courseAnswerRepository;
-    private final AuthService authService;
+    private final ReviewRepository reviewRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @PostConstruct
+    @Transactional
     public void init() {
         initData();
     }
 
-    private void initData() {
+    public void initData() {
+        // 초기 데이터 삽입 로직
+        User instructor = createUser("instructor", "password", Role.ROLE_INSTRUCTOR);
+        User student = createUser("student", "password", Role.ROLE_USER);
 
-        //강사 역할 사용자 생성
-        SignupRequest instructorSignupRequest = new SignupRequest();
-        instructorSignupRequest.setUsername("instructor");
-        instructorSignupRequest.setPassword("password");
-        instructorSignupRequest.setEmail("instructor@example.com");
-        instructorSignupRequest.setNickname("Instructor");
-        instructorSignupRequest.setPhone("010-1234-5678");
-        instructorSignupRequest.setBirthDate(LocalDate.of(1980, 1, 1));
-        instructorSignupRequest.setProfile_img("profile_img");
-        instructorSignupRequest.setCertificate("certificate");
-        instructorSignupRequest.setEducation("education");
-        instructorSignupRequest.setExperience("experience");
-        instructorSignupRequest.setContent("content");
-        instructorSignupRequest.setRole(Role.ROLE_INSTRUCTOR);
-        authService.signUp(instructorSignupRequest);
-        //유저 역할 사용자 생성
-        SignupRequest userSignupRequest = new SignupRequest();
-        userSignupRequest.setUsername("user");
-        userSignupRequest.setPassword("password");
-        userSignupRequest.setEmail("user@example.com");
-        userSignupRequest.setNickname("User");
-        userSignupRequest.setPhone("010-5678-1234");
-        userSignupRequest.setBirthDate(LocalDate.of(1990, 1, 1));
-        userSignupRequest.setInterestedJob("interestedJob");
-        userSignupRequest.setReason("reason");
-        userSignupRequest.setRole(Role.ROLE_USER);
-        authService.signUp(userSignupRequest);
+        Course course = createCourse("Java Basics", instructor);
+        Enrollment enrollment = createEnrollment(course, student);
+        Lecture lecture1 = createLecture(course, "Introduction to Java", "Java overview", "fileUrl", "videoUrl", 1);
+        Lecture lecture2 = createLecture(course, "Java Syntax", "Java basic syntax", "fileUrl", "videoUrl", 2);
 
-        User instructor = userRepository.findByUsername("instructor").orElseThrow();
-        User user = userRepository.findByUsername("user").orElseThrow();
+        createLectureProgress(lecture1, enrollment);
+        createLectureProgress(lecture2, enrollment);
 
-        // 강의 생성
+        CourseQuestion question = createCourseQuestion(lecture1, student, enrollment, "What is Java?", "Can someone explain what Java is?");
+        createCourseAnswer(question, instructor, "Java is a programming language.");
+
+        createReview(course, student, enrollment, "Great course!", "I learned a lot.", 5);
+    }
+
+    @Transactional
+    public User createUser(String username, String password, Role role) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRole(role);
+        user.setEmail(username + "@example.com");
+        user.setNickname(username);
+        user.setPhone("010-1234-5678");
+        user.setBirthDate(LocalDate.of(1990, 1, 1));
+        user.setRegistrationDate(LocalDateTime.now());
+        user.setActive(true);
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public Course createCourse(String title, User instructor) {
         Course course = new Course();
-        course.setTitle("Sample Course");
-        course.setDescription("This is a sample course.");
-        course.setGoal("Learn something new.");
-        course.setExpected_effects("You will gain knowledge.");
+        course.setTitle(title);
+        course.setDescription("This is a course about Java Basics.");
+        course.setGoal("Learn Java from scratch.");
+        course.setExpected_effects("Become proficient in Java.");
         course.setCreated_date(LocalDate.now());
         course.setModified_date(LocalDate.now());
         course.setStatus(true);
-        course.setPrice(1000);
-        course.setImg("course_img");
+        course.setPrice(100);
+        course.setImg("imgUrl");
         course.setRatingAvg(0);
         course.setReadCount(0);
         course.setStudentCount(0);
         course.setLikeCount(0);
         course.setSales(0);
         course.setUser(instructor);
-        courseRepository.save(course);
+        return courseRepository.save(course);
+    }
 
-        // 강의 목차 생성
+    @Transactional
+    public Enrollment createEnrollment(Course course, User student) {
+        Enrollment enrollment = new Enrollment();
+        enrollment.setCourse(course);
+        enrollment.setUser(student);
+        enrollment.setEnrollmentDate(LocalDate.now());
+        enrollment.setProgress(0);
+        enrollment.setCompleted(false);
+        return enrollmentRepository.save(enrollment);
+    }
+
+    @Transactional
+    public Lecture createLecture(Course course, String title, String content, String courseFileUrl, String videoUrl, int orders) {
         Lecture lecture = new Lecture();
-        lecture.setTitle("Sample Lecture");
-        lecture.setContent("This is a sample lecture.");
-        lecture.setCourseFileUrl("course_file_url");
-        lecture.setVideoUrl("video_url");
-        lecture.setOrders(1);
+        lecture.setTitle(title);
+        lecture.setContent(content);
+        lecture.setCourseFileUrl(courseFileUrl);
+        lecture.setVideoUrl(videoUrl);
+        lecture.setOrders(orders);
         lecture.setCourse(course);
-        lectureRepository.save(lecture);
+        return lectureRepository.save(lecture);
+    }
 
-        // 수강 등록 생성
-        //Enrollment enrollment = Enrollment.createEnrollment(List.of(), List.of(), List.of(), course, user);
-        //enrollmentRepository.save(enrollment);
+    @Transactional
+    public LectureProgress createLectureProgress(Lecture lecture, Enrollment enrollment) {
+        LectureProgress lectureProgress = new LectureProgress();
+        lectureProgress.setLecture(lecture);
+        lectureProgress.setEnrollment(enrollment);
+        lectureProgress.setCompleted(false);
+        lectureProgress.setProgress(0);
+        lectureProgress.setLastAccessed(LocalDate.now());
+        return lectureProgressRepository.save(lectureProgress);
+    }
 
-        // 수강 상태 생성
-        //LectureProgress lectureProgress = LectureProgress.createLectureProgress(lecture, enrollment);
-        //lectureProgressRepository.save(lectureProgress);
+    @Transactional
+    public CourseQuestion createCourseQuestion(Lecture lecture, User student, Enrollment enrollment, String title, String content) {
+        CourseQuestion courseQuestion = new CourseQuestion();
+        courseQuestion.setLecture(lecture);
+        courseQuestion.setEnrollment(enrollment);
+        courseQuestion.setTitle(title);
+        courseQuestion.setContent(content);
+        courseQuestion.setCreatedDate(LocalDate.now());
+        courseQuestion.setUsername(student.getUsername());
+        return courseQuestionRepository.save(courseQuestion);
+    }
 
-        // 리뷰 생성
-        //Review review = Review.createReview(course, user.getUsername(), enrollment, "Sample Review", "This is a sample review.", 5);
-        //reviewRepository.save(review);
+    @Transactional
+    public CourseAnswer createCourseAnswer(CourseQuestion courseQuestion, User instructor, String content) {
+        CourseAnswer courseAnswer = new CourseAnswer();
+        courseAnswer.setCourseQuestion(courseQuestion);
+        courseAnswer.setUsername(instructor.getUsername());
+        courseAnswer.setTitle("Answer");
+        courseAnswer.setContent(content);
+        courseAnswer.setCreatedDate(LocalDate.now());
+        return courseAnswerRepository.save(courseAnswer);
+    }
 
-        // 질문 생성
-        //CourseQuestion courseQuestion = CourseQuestion.createCourseQuestion(List.of(), lecture, user.getUsername(), enrollment, "Sample Question", "This is a sample question.");
-        //courseQuestionRepository.save(courseQuestion);
-
-        // 답변 생성
-        //CourseAnswer courseAnswer = CourseAnswer.createCourseAnswer(courseQuestion, instructor.getUsername(), "Sample Answer", "This is a sample answer.");
-        //courseAnswerRepository.save(courseAnswer);
+    @Transactional
+    public Review createReview(Course course, User student, Enrollment enrollment, String title, String content, int rating) {
+        Review review = new Review();
+        review.setCourse(course);
+        review.setEnrollment(enrollment);
+        review.setUsername(student.getUsername());
+        review.setTitle(title);
+        review.setContent(content);
+        review.setRating(rating);
+        review.setCreateDate(LocalDate.now());
+        review.setLiked(false);
+        return reviewRepository.save(review);
     }
 }
