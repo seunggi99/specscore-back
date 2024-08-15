@@ -16,11 +16,6 @@ public class CourseRequest {
     private boolean status;
     private int price;
     private String img;
-    private double ratingAvg;
-    private int readCount;
-    private int studentCount;
-    private int likeCount;
-    private int sales;
 
     private List<LectureRequest> lectures;
 }

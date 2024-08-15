@@ -33,6 +33,9 @@ public class ReviewService {
                 .orElseThrow(() -> new IllegalArgumentException("Enrollment not found"));
         Review review = Review.createReview(course, enrollment, user.getUsername(), reviewRequest);
         reviewRepository.save(review);
+
+        course.updateRatingAvg(); /* 강의 평점 업데이트 */
+        course.updateLikedCount(); /* 좋아요 수 업데이트 */
         return review.getId();
     }
 
@@ -43,6 +46,4 @@ public class ReviewService {
                 .map(ReviewResponse::new)
                 .collect(Collectors.toList());
     }
-
-    /* 좋아요 */
 }

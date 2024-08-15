@@ -35,6 +35,8 @@ public class EnrollmentService {
             LectureProgress lectureProgress = LectureProgress.createLectureProgress(lecture, enrollment);
             lectureProgressRepository.save(lectureProgress);
         }
+
+        course.updateStudentCount(); /* 강의 학생 수 증가 */
         return enrollment.getId();
     }
 

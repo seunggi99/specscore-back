@@ -10,4 +10,5 @@ public class ReviewRequest {
     private String title;
     private String content;
     private int rating;
+    private boolean liked;
 }

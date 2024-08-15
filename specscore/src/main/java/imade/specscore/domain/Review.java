@@ -44,8 +44,7 @@ public class Review {
         review.setRating(reviewRequest.getRating());
 
         review.setCreateDate(LocalDate.now());
-        review.setLiked(false);
-
+        review.setLiked(reviewRequest.isLiked());
         review.setUsername(username);
         review.setCourse(course);
         review.setEnrollment(enrollment);

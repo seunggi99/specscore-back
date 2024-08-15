@@ -76,13 +76,37 @@ public class Course {
         course.setStatus(courseRequest.isStatus());
         course.setPrice(courseRequest.getPrice());
         course.setImg(courseRequest.getImg());
-        course.setRatingAvg(courseRequest.getRatingAvg());
-        course.setReadCount(courseRequest.getReadCount());
-        course.setStudentCount(courseRequest.getStudentCount());
-        course.setLikeCount(courseRequest.getLikeCount());
-        course.setSales(courseRequest.getSales());
+        course.setRatingAvg(0.0);
+        course.setReadCount(0);
+        course.setStudentCount(0);
+        course.setLikeCount(0);
+        course.setSales(0);
 
         course.setUser(user);
         return course;
+    }
+
+    //== 비지니스 로직 ==//
+    /* 평균 평점 업데이트 */
+    public void updateRatingAvg() {
+        this.ratingAvg = reviews.stream()
+                .mapToInt(Review::getRating)
+                .average()
+                .orElse(0.0);
+    }
+
+    /* 학생 수 업데이트 */
+    public void updateStudentCount() {
+        this.studentCount++;
+    }
+
+    /* 좋아요 수 업데이트 */
+    public void updateLikedCount() {
+        this.likeCount++;
+    }
+
+    /* 조회수 업데이트 */
+    public void updateReadCount() {
+        this.readCount++;
     }
 }

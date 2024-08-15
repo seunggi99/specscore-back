@@ -54,4 +54,13 @@ public class CourseService {
         }
         return course.getId();
     }
+
+    /* 조회수 증가 */
+    @Transactional
+    public void readUpdate(Long courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new IllegalArgumentException("Course not found"));
+        // 조회수 증가
+        course.updateReadCount();
+    }
 }
