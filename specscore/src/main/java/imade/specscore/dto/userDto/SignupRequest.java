@@ -1,4 +1,4 @@
-package imade.specscore.dto;
+package imade.specscore.dto.userDto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

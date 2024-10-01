@@ -1,6 +1,7 @@
 package imade.specscore.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import imade.specscore.dto.LectureRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,5 +38,18 @@ public class Lecture {
 
     private String videoUrl;
 
-    private int order;
+    private int orders;
+
+    //== 생성 메서드 ==//
+    public static Lecture createLecture(Course course, LectureRequest lectureRequest) {
+        Lecture lecture = new Lecture();
+        lecture.setTitle(lectureRequest.getTitle());
+        lecture.setContent(lectureRequest.getContent());
+        lecture.setCourseFileUrl(lectureRequest.getCourseFileUrl());
+        lecture.setVideoUrl(lectureRequest.getVideoUrl());
+        lecture.setOrders(lectureRequest.getOrders());
+
+        lecture.setCourse(course);
+        return lecture;
+    }
 }

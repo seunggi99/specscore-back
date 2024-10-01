@@ -1,6 +1,7 @@
 package imade.specscore.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import imade.specscore.dto.CourseRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -61,4 +62,51 @@ public class Course {
     private int likeCount;
     private int sales;
 
+    //== 생성 메서드 ==//
+    public static Course createCourse(CourseRequest courseRequest, User user) {
+        Course course = new Course();
+        course.setTitle(courseRequest.getTitle());
+        course.setDescription(courseRequest.getDescription());
+        course.setGoal(courseRequest.getGoal());
+        course.setExpected_effects(courseRequest.getExpectedEffects());
+
+        course.setCreated_date(LocalDate.now());
+        course.setModified_date(LocalDate.now());
+
+        course.setStatus(courseRequest.isStatus());
+        course.setPrice(courseRequest.getPrice());
+        course.setImg(courseRequest.getImg());
+        course.setRatingAvg(0.0);
+        course.setReadCount(0);
+        course.setStudentCount(0);
+        course.setLikeCount(0);
+        course.setSales(0);
+
+        course.setUser(user);
+        return course;
+    }
+
+    //== 비지니스 로직 ==//
+    /* 평균 평점 업데이트 */
+    public void updateRatingAvg() {
+        this.ratingAvg = reviews.stream()
+                .mapToInt(Review::getRating)
+                .average()
+                .orElse(0.0);
+    }
+
+    /* 학생 수 업데이트 */
+    public void updateStudentCount() {
+        this.studentCount++;
+    }
+
+    /* 좋아요 수 업데이트 */
+    public void updateLikedCount() {
+        this.likeCount++;
+    }
+
+    /* 조회수 업데이트 */
+    public void updateReadCount() {
+        this.readCount++;
+    }
 }
